@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ASC3ND Staff Portal — Private Access Card</title>
+  <style>
+    :root{--black:#050505;--paper:#F5F1E8;--gold:#F5A617;--muted:#a9a294}
+    *{box-sizing:border-box}html,body{min-height:100%;margin:0}body{display:grid;place-items:center;padding:32px;background:var(--black);color:var(--paper);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    .card{width:min(420px,100%);padding:42px;border:1px solid rgba(245,166,23,.7);background:linear-gradient(145deg,#111 0,#050505 70%);box-shadow:0 35px 90px rgba(0,0,0,.7)}
+    .logo{width:70px;height:70px;display:grid;place-items:center;border:1px solid var(--gold);border-radius:50%;color:var(--gold);font-weight:850;font-size:13px;letter-spacing:.06em}
+    .eyebrow{margin:30px 0 8px;color:var(--gold);font-size:11px;letter-spacing:.18em;text-transform:uppercase}h1{margin:0;font-size:40px;line-height:1;letter-spacing:-.04em}h2{margin:10px 0 30px;color:var(--muted);font-size:16px;font-weight:450}
+    .credential{margin:0 0 12px;padding:14px 0 14px 16px;border-left:3px solid var(--gold);background:#0b0b0b}.credential small{display:block;margin-bottom:5px;color:var(--muted);font:10px system-ui;text-transform:uppercase;letter-spacing:.12em}.credential code{font:13px ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}
+    .primary{display:block;margin-top:26px;padding:15px 18px;text-align:center;color:#050505;background:var(--gold);text-decoration:none;text-transform:uppercase;font-size:12px;font-weight:800;letter-spacing:.09em}.secondary{display:block;margin-top:16px;text-align:center;color:var(--gold);font-size:13px}
+    .note{margin-top:30px;padding-top:20px;border-top:1px solid #28251f;color:var(--muted);font-size:12px;line-height:1.55}.tagline{margin:28px 0 0;color:var(--paper);font-size:10px;line-height:1.5;letter-spacing:.12em;text-transform:uppercase}
+    @media print{body{min-height:auto;padding:0;background:#fff}.card{margin:0 auto;box-shadow:none;print-color-adjust:exact;-webkit-print-color-adjust:exact;page-break-inside:avoid}}
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="logo" aria-label="ASC3ND">ASC3ND</div>
+    <p class="eyebrow">Private staff access</p>
+    <h1>Your Staff Portal</h1>
+    <h2>Save these access details</h2>
+    <div class="credential"><small>Login URL</small><code>https://asc3nd.org/auth/login</code></div>
+    <div class="credential"><small>Email</small><code>asc3ndcollective@gmail.com</code></div>
+    <div class="credential"><small>Password</small><code>Delivered separately through a secure channel</code></div>
+    <a class="primary" href="https://asc3nd.org/auth/login" target="_blank" rel="noreferrer">Go to Login</a>
+    <a class="secondary" href="https://asc3nd.org/admin/checkin" target="_blank" rel="noreferrer">Open Check-in Mode</a>
+    <p class="note">Keep this information private. If you forget your password, contact social@asc3nd.org.</p>
+    <p class="tagline">Empower youth. Elevate futures. Build community.</p>
+  </main>
+</body>
+</html>

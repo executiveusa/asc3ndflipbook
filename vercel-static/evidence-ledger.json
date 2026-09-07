@@ -1,0 +1,26 @@
+{
+  "book": "ASC3ND — From Foundation to Forward Motion",
+  "evidence_date": "2026-08-04",
+  "status_definitions": {
+    "verified": "Supported by a supplied artifact or machine-readable receipt",
+    "validate": "Built or documented, but requires a live end-to-end check",
+    "decision": "Requires ASC3ND leadership confirmation",
+    "next": "Recommended future scope, not represented as delivered"
+  },
+  "verified": [
+    "QR payload decodes to https://asc3nd.org",
+    "QR package contains SVG, PNG, PDF, checksums, and decode receipt",
+    "Facebook campaign package contains 33 campaign files and 31 registered assets",
+    "Instagram strategy uses a three-column, four-row publishing system",
+    "Staff portal and check-in routes were supplied for handoff"
+  ],
+  "requires_live_validation": [
+    "Public event journey",
+    "RSVP submission and record flow",
+    "Staff authentication and password reset",
+    "Check-in mode",
+    "Bilingual routes",
+    "Physical QR scans on final placed artwork"
+  ],
+  "security": "No plaintext passwords, service keys, recovery codes, or private database credentials are stored in this Site."
+}
