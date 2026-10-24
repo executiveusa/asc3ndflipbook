@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "drizzle-orm": "0.45.2",
-    "next": "16.3.5",
+    "next": "16.4.3",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "react-pageflip": "^2.0.3"
