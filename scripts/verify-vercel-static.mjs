@@ -38,6 +38,17 @@ for (const reference of localReferences) {
   await access(resolve(outputDirectory, `.${reference}`));
 }
 
+// The Vercel deployment is an immutable checked-in static bundle, not the
+// live Vinext build output. Never ship a new mobile reader without its real
+// deployable CSS/JS or with source and production copies out of sync.
+const mobileAssets = ["mobile-reader.css", "mobile-reader.js"];
+for (const asset of mobileAssets) {
+  if (!html.includes(`/${asset}`)) throw new Error(`Static HTML does not load ${asset}`);
+  const deployed = await readFile(resolve(outputDirectory, asset), "utf8");
+  const source = await readFile(resolve(outputDirectory, "../public", asset), "utf8");
+  if (!deployed || deployed !== source) throw new Error(`Mobile reader source and deployment disagree: ${asset}`);
+}
+
 console.log(
   `Validated ${requiredCopy.length} identity markers and ${localReferences.size} local asset references.`,
 );
