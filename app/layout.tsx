@@ -10,7 +10,8 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <head><link rel="stylesheet" href="/mobile-reader.css" /></head>
+      <body>{children}<script defer src="/mobile-reader.js" /></body>
     </html>
   );
 }
