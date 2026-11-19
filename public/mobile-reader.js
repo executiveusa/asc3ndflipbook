@@ -52,7 +52,10 @@
     if (contents) contents.hidden = true;
     if (mediaDialog) mediaDialog.hidden = true;
     document.body.classList.remove("pocket-dialog-open");
-    if (wasOpen) (modalTrigger || app?.querySelector(".pocket-contents-toggle"))?.focus();
+    if (wasOpen) {
+      const target = modalTrigger && document.contains(modalTrigger) ? modalTrigger : app?.querySelector(".pocket-contents-toggle");
+      target?.focus();
+    }
     modalTrigger = null;
   }
 
@@ -196,7 +199,7 @@
     // Keep the pocket edition when a phone rotates to short landscape.
     // Desktop first-load still uses original pageflip, while short rotations
     // preserve page position without replacing React's internal book state.
-    if (!media.matches && !(app && innerWidth <= 1200)) { teardown(); return; }
+    if (!media.matches && !(app && innerWidth <= 1400)) { teardown(); return; }
     if (app) return;
     const source = [...document.querySelectorAll(".reading-room .book-page")];
     if (source.length < 22) return;
@@ -207,20 +210,36 @@
   }
   function handleKey(event) {
     if (!app) return;
-    if (event.key === "Escape") {
-      if (!app.querySelector(".pocket-contents").hidden || !app.querySelector(".pocket-media").hidden) closeDialogs();
+    const dialog = [app.querySelector(".pocket-contents"), app.querySelector(".pocket-media")]
+      .find(node => node && !node.hidden);
+    if (dialog) {
+      if (event.key === "Escape") {
+        event.preventDefault(); event.stopImmediatePropagation(); closeDialogs(); return;
+      }
+      if (event.key === "Tab") {
+        const controls = [...dialog.querySelectorAll("button:not([disabled]),a[href]")];
+        if (!controls.length) return;
+        const first = controls[0], last = controls[controls.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault(); last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault(); first.focus();
+        }
+      }
       return;
     }
-    if (event.key === "ArrowRight" && !event.target.closest("a, button, input, textarea, select")) {
-      event.stopImmediatePropagation(); goTo(index + 1);
+    const isEditing = event.target instanceof Element &&
+      !!event.target.closest("a,button,input,textarea,select,[contenteditable]");
+    if (event.key === "ArrowRight" && !isEditing) {
+      event.preventDefault(); event.stopImmediatePropagation(); goTo(index + 1);
     }
-    if (event.key === "ArrowLeft" && !event.target.closest("a, button, input, textarea, select")) {
-      event.stopImmediatePropagation(); goTo(index - 1);
+    if (event.key === "ArrowLeft" && !isEditing) {
+      event.preventDefault(); event.stopImmediatePropagation(); goTo(index - 1);
     }
   }
   document.addEventListener("keydown", handleKey, true);
   media.addEventListener("change", () => {
-    if (!media.matches && !(app && innerWidth <= 1200)) { teardown(); return; }
+    if (!media.matches && !(app && innerWidth <= 1400)) { teardown(); return; }
     if (!observer) observer = new MutationObserver(check);
     observer.observe(document.documentElement, { childList: true, subtree: true });
     check();
