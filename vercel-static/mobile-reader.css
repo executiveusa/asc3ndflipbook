@@ -58,6 +58,7 @@
     .rhythm span,.truth-board b,.brand-lock span,.portal-card p) {
     font-size:15px !important; line-height:1.5 !important;
   }
+  .pocket-app .founders-composition :is(.founders-eyebrow,.founded-year) { font-size:13px !important; line-height:1.5 !important; letter-spacing:.06em; }
   .pocket-app .page-content :is(.kicker,.eyebrow,.progress-marker,.rhythm b,.week-lines b,
     .system-lines b,.truth-board span,.next-three strong,.artifact-label,.event-stamp span,
     .portal-card small,.qr-rules b,.domain-pair small,.domain-pair span,.editorial-gallery span) {
