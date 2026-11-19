@@ -4,7 +4,7 @@
  */
 (() => {
   "use strict";
-  const media = matchMedia("(max-width: 760px), (max-width: 1024px) and (orientation: portrait)");
+  const media = matchMedia("(max-width: 760px), (max-width: 1024px) and (orientation: portrait), (max-width: 1200px) and (pointer: coarse)");
   const CHAPTERS = [
     ["01", "Where we began", 3], ["02", "The first real system", 6],
     ["03", "What is live today", 8], ["04", "Quiet infrastructure", 11],
@@ -66,6 +66,18 @@
     leaf.removeAttribute("data-fit");
     leaf.classList.remove("stf__item", "--soft", "--right", "--simple");
     leaf.classList.add("pocket-sheet");
+    // The approved event flyer is an image, not a React gallery button.
+    // Wrap the mobile-only clone so visitors can inspect its small print.
+    if (leaf.classList.contains("image-page")) {
+      const flyer = leaf.querySelector(".page-content img");
+      if (flyer) {
+        const trigger = make("button", "pocket-image-trigger");
+        trigger.type = "button";
+        trigger.setAttribute("aria-label", "Enlarge event flyer");
+        flyer.before(trigger);
+        trigger.append(flyer);
+      }
+    }
     for (const nested of leaf.querySelectorAll("[style]")) {
       if (nested.hasAttribute("data-density")) nested.removeAttribute("style");
     }
@@ -154,7 +166,7 @@
     mediaDialog.append(mediaClose, enlarged);
     mediaDialog.addEventListener("click", (event) => { if (event.target === mediaDialog) closeDialogs(); });
     body.addEventListener("click", (event) => {
-      const imageButton = event.target.closest(".campaign-strip button, .editorial-gallery button");
+      const imageButton = event.target.closest(".pocket-image-trigger, .campaign-strip button, .editorial-gallery button");
       if (!imageButton) return;
       const img = imageButton.querySelector("img");
       if (!img) return;
@@ -181,7 +193,10 @@
   }
 
   function check() {
-    if (!media.matches) { teardown(); return; }
+    // Keep the pocket edition when a phone rotates to short landscape.
+    // Desktop first-load still uses original pageflip, while short rotations
+    // preserve page position without replacing React's internal book state.
+    if (!media.matches && !(app && innerWidth <= 1200)) { teardown(); return; }
     if (app) return;
     const source = [...document.querySelectorAll(".reading-room .book-page")];
     if (source.length < 22) return;
@@ -205,7 +220,7 @@
   }
   document.addEventListener("keydown", handleKey, true);
   media.addEventListener("change", () => {
-    if (!media.matches) { teardown(); return; }
+    if (!media.matches && !(app && innerWidth <= 1200)) { teardown(); return; }
     if (!observer) observer = new MutationObserver(check);
     observer.observe(document.documentElement, { childList: true, subtree: true });
     check();
