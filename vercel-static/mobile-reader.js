@@ -15,6 +15,7 @@
   let app = null;
   let observer = null;
   let sound = false;
+  let modalTrigger = null;
 
   const folio = (i) => i === 0 ? "Cover" : i === 1 ? "Founders" :
     i >= 21 ? "Back cover" : String(i - 1).padStart(2, "0") + " / 19";
@@ -47,10 +48,12 @@
   function closeDialogs() {
     const contents = app?.querySelector(".pocket-contents");
     const mediaDialog = app?.querySelector(".pocket-media");
+    const wasOpen = !!((contents && !contents.hidden) || (mediaDialog && !mediaDialog.hidden));
     if (contents) contents.hidden = true;
     if (mediaDialog) mediaDialog.hidden = true;
     document.body.classList.remove("pocket-dialog-open");
-    app?.querySelector(".pocket-contents-toggle")?.focus();
+    if (wasOpen) (modalTrigger || app?.querySelector(".pocket-contents-toggle"))?.focus();
+    modalTrigger = null;
   }
 
   function goTo(next) {
@@ -133,6 +136,7 @@
     toc.append(tocPane);
     toc.addEventListener("click", (event) => { if (event.target === toc) closeDialogs(); });
     menu.addEventListener("click", () => {
+      modalTrigger = menu;
       toc.hidden = false;
       document.body.classList.add("pocket-dialog-open");
       dismiss.focus();
@@ -155,6 +159,7 @@
       const img = imageButton.querySelector("img");
       if (!img) return;
       event.preventDefault();
+      modalTrigger = imageButton;
       enlarged.src = img.currentSrc || img.src;
       enlarged.alt = img.alt || enlarged.alt;
       mediaDialog.hidden = false;
@@ -201,6 +206,8 @@
   document.addEventListener("keydown", handleKey, true);
   media.addEventListener("change", () => {
     if (!media.matches) { teardown(); return; }
+    if (!observer) observer = new MutationObserver(check);
+    observer.observe(document.documentElement, { childList: true, subtree: true });
     check();
   });
   observer = new MutationObserver(check);
