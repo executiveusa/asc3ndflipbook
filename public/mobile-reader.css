@@ -1,7 +1,7 @@
 /* ASC3ND mobile edition: readable, single-leaf, native vertical document scrolling.
    Desktop react-pageflip remains the canonical 13:18 book. No scroll interception. */
 .pocket-app { display:none; }
-@media (max-width:1200px) {
+@media (max-width:1400px) {
   body.pocket-active { margin:0; min-width:0; background:#080807; overflow-x:visible; }
   body.pocket-active .reading-room { display:none !important; }
   body.pocket-active .pocket-app {
