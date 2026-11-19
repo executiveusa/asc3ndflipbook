@@ -1,0 +1,35 @@
+name: ASC3ND Mobile Reader Contract
+
+on:
+  pull_request:
+    paths:
+      - "public/mobile-reader.*"
+      - "vercel-static/mobile-reader.*"
+      - "vercel-static/index.html"
+      - "app/layout.tsx"
+      - "scripts/verify-vercel-static.mjs"
+      - "tests/mobile-reader-contract.test.mjs"
+      - ".github/workflows/mobile-reader-qa.yml"
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  mobile-reader:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: JavaScript syntax
+        run: |
+          node --check public/mobile-reader.js
+          node --check vercel-static/mobile-reader.js
+      - name: Verify deployable static artifact and source parity
+        run: node scripts/verify-vercel-static.mjs vercel-static
+      - name: Validate mobile reader contracts
+        run: node --test tests/mobile-reader-contract.test.mjs
