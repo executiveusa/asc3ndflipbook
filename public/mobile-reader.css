@@ -1,7 +1,7 @@
 /* ASC3ND mobile edition: readable, single-leaf, native vertical document scrolling.
    Desktop react-pageflip remains the canonical 13:18 book. No scroll interception. */
 .pocket-app { display:none; }
-@media (max-width:760px), (max-width:1024px) and (orientation:portrait) {
+@media (max-width:1200px) {
   body.pocket-active { margin:0; min-width:0; background:#080807; overflow-x:visible; }
   body.pocket-active .reading-room { display:none !important; }
   body.pocket-active .pocket-app {
@@ -105,6 +105,8 @@
   .pocket-app .back-signature { min-height:calc(100dvh - 155px); display:flex; flex-direction:column; justify-content:center; align-items:center; gap:20px; }
   .pocket-app .back-signature img { width:min(70%,260px); }
   .pocket-app .image-page .page-content { min-height:65dvh; padding:18px; }
+  .pocket-app .pocket-image-trigger { display:block; width:100%; min-height:44px; border:0; padding:0; margin:0; color:inherit; background:transparent; cursor:zoom-in; }
+  .pocket-app .pocket-image-trigger:focus-visible { outline:3px solid #f5a617; outline-offset:3px; }
   .pocket-app .image-page img { width:100%; max-height:65dvh; height:auto; object-fit:contain; }
   .pocket-app .image-page .image-support { position:static; color:#f5f1e8; background:#050505; padding:12px; }
   .pocket-app .image-page .artifact-label { top:18px; right:18px; left:18px; text-align:center; }
