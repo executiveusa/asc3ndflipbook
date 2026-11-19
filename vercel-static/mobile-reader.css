@@ -1,0 +1,140 @@
+/* ASC3ND mobile edition: readable, single-leaf, native vertical document scrolling.
+   Desktop react-pageflip remains the canonical 13:18 book. No scroll interception. */
+.pocket-app { display:none; }
+@media (max-width:760px), (max-width:1024px) and (orientation:portrait) {
+  body.pocket-active { margin:0; min-width:0; background:#080807; overflow-x:visible; }
+  body.pocket-active .reading-room { display:none !important; }
+  body.pocket-active .pocket-app {
+    display:block; min-height:100svh; min-height:100dvh;
+    color:#f5f1e8; background:radial-gradient(ellipse at 50% 8%, #30261b, #0b0a08 50%, #050505 100%);
+    font:16px/1.55 Arial,Helvetica,system-ui,sans-serif;
+    padding:0 max(10px,env(safe-area-inset-right)) calc(80px + env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));
+  }
+  .pocket-app button, .pocket-app a { touch-action:manipulation; }
+  .pocket-app button:focus-visible, .pocket-app a:focus-visible { outline:3px solid #f5a617; outline-offset:3px; }
+  .pocket-bar {
+    position:sticky; z-index:70; top:0; min-height:60px;
+    display:flex; align-items:center; gap:6px;
+    margin:0 -10px 12px; padding:8px max(12px,env(safe-area-inset-right)) 8px max(12px,env(safe-area-inset-left));
+    border-bottom:1px solid rgba(245,241,232,.18); background:#0a0908;
+  }
+  .pocket-wordmark { font-size:14px; font-weight:900; letter-spacing:.14em; color:#f5a617; flex:none; }
+  .pocket-book-label { margin-left:2px; font-size:12px; color:#e7dfd2; white-space:nowrap; }
+  .pocket-bar button { flex:none; min-width:44px; min-height:44px; padding:0 8px; border:0; border-radius:5px; background:transparent; color:#f5f1e8; font-size:13px; cursor:pointer; }
+  .pocket-bar .pocket-contents-toggle { margin-left:auto; }
+  .pocket-bar .pocket-sound { font-size:12px; color:#d7b774; }
+  .pocket-sheet-host { width:min(100%,620px); min-width:0; margin:0 auto 16px; outline:none; }
+  .pocket-app .book-page.pocket-sheet {
+    container-type:inline-size; display:block; position:relative; width:100%; height:auto !important; min-height:calc(100svh - 150px);
+    min-height:calc(100dvh - 150px); overflow:visible; transform:none !important;
+    border:1px solid rgba(152,113,62,.37);
+    box-shadow:0 8px 32px rgba(0,0,0,.4);
+    margin:0; opacity:1 !important; visibility:visible !important;
+  }
+  .pocket-app .book-page .page-content {
+    width:100%; height:auto; min-height:calc(100svh - 160px); min-height:calc(100dvh - 160px);
+    padding:clamp(24px,6vw,42px);
+    display:flex; flex-direction:column; gap:12px; overflow:visible; justify-content:flex-start;
+    overflow-wrap:anywhere; word-break:normal;
+  }
+  .pocket-app .book-page[data-fit] .page-content { overflow:visible; }
+  .pocket-app .page-number { position:static; display:block; width:100%; padding:0 24px 20px; text-align:right; font-size:12px; }
+  .pocket-app .book-page:nth-child(even) .page-number { text-align:right; padding-left:24px; }
+  .pocket-app .page-content :is(h1,h2,h3,.display-title,.chapter-word) {
+    max-width:100%; margin:0; font-family:Georgia,"Times New Roman",serif;
+    line-height:1.06; letter-spacing:-.028em; overflow-wrap:anywhere;
+  }
+  .pocket-app .page-content h1 { font-size:clamp(32px,9vw,53px) !important; }
+  .pocket-app .page-content h2, .pocket-app .page-content .display-title { font-size:clamp(28px,7.4vw,44px) !important; }
+  .pocket-app .page-content .chapter-word { font-size:clamp(35px,9.6vw,60px) !important; line-height:1.02; }
+  .pocket-app .page-content :is(.story-copy,.compact-copy,.opening-deck,.opening-page p,.image-support,
+    .margin-note,.closing-copy,.artifact-sentence,.flow-copy,.cycle-flow,.project-description) {
+    font-size:16px !important; line-height:1.55 !important;
+  }
+  .pocket-app .page-content :is(.story-copy,.compact-copy,.opening-deck,.margin-note,.artifact-sentence,
+    .domain-display,.flow-copy,.cycle-flow,.image-support) { margin:8px 0 !important; }
+  .pocket-app .page-content :is(.compact-list li,.priority-list li,.proof-questions li,
+    .decision-list li,.week-lines span,.system-lines span,.qr-rules span,.next-three span,
+    .rhythm span,.truth-board b,.brand-lock span,.portal-card p) {
+    font-size:15px !important; line-height:1.5 !important;
+  }
+  .pocket-app .page-content :is(.kicker,.eyebrow,.progress-marker,.rhythm b,.week-lines b,
+    .system-lines b,.truth-board span,.next-three strong,.artifact-label,.event-stamp span,
+    .portal-card small,.qr-rules b,.domain-pair small,.domain-pair span,.editorial-gallery span) {
+    font-size:12px !important; line-height:1.4 !important; letter-spacing:.04em;
+  }
+  .pocket-app .page-content :is(.two-column-list,.truth-board,.next-three,.journey-line,
+    .offer-grid,.deliverable-index,.proof-row,.campaign-strip) { display:grid; grid-template-columns:minmax(0,1fr); gap:8px; width:100%; }
+  .pocket-app .page-content :is(.compact-list,.priority-list,.proof-questions,.decision-list,.rhythm,
+    .system-lines,.week-lines,.truth-board,.next-three,.domain-pair,.campaign-strip) { margin:12px 0 !important; }
+  .pocket-app .page-content :is(.compact-list li,.priority-list li,.proof-questions li) { min-height:40px; padding:8px 8px 8px 18px; }
+  .pocket-app .page-content :is(.truth-board div,.next-three div,.journey-line div,.offer-grid div,
+    .deliverable-index div,.proof-row div) { min-height:0; padding:12px; border:1px solid #c7baa6; }
+  .pocket-app .page-content :is(.truth-board b,.next-three b,.journey-line b) {
+    margin:8px 0 !important; font-size:clamp(20px,6vw,30px) !important; line-height:1.25 !important;
+  }
+  .pocket-app .page-content :is(.rhythm p,.system-lines p,.week-lines p) {
+    grid-template-columns:minmax(60px,80px) minmax(0,1fr); gap:12px; padding:12px 0;
+  }
+  .pocket-app .page-content :is(.rhythm b,.system-lines b,.week-lines b) {
+    font-size:12px !important; letter-spacing:0; overflow-wrap:anywhere;
+  }
+  .pocket-app .page-content .portal-actions { display:grid; grid-template-columns:minmax(0,1fr); gap:10px; }
+  .pocket-app .page-content .portal-actions a,
+  .pocket-app .page-content .ink-button { display:flex; align-items:center; min-height:44px; padding:11px 14px; font-size:14px !important; }
+  .pocket-app .page-content .editorial-gallery { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); align-items:start; gap:14px; margin:12px 0; }
+  .pocket-app .page-content .editorial-gallery button { width:100%; margin:0; transform:none; }
+  .pocket-app .page-content .editorial-gallery span { padding:8px 4px; }
+  .pocket-app .page-content .campaign-strip button { min-height:0; }
+  .pocket-app .page-content .campaign-strip img,
+  .pocket-app .page-content .editorial-gallery img { width:100%; height:auto; }
+  .pocket-app .page-content .portal-card { margin:12px 0; padding:20px; }
+  .pocket-app .page-content .portal-card p { color:#e2d7c6; }
+  .pocket-app .page-content :is(.brand-lock,.qr-layout) { grid-template-columns:minmax(0,1fr); gap:16px; }
+  .pocket-app .page-content .domain-display { font-size:clamp(26px,8vw,45px) !important; }
+  .pocket-app .page-content .brand-lock span { color:#f5f1e8; }
+  .pocket-app .book-page.cover { min-height:calc(100dvh - 155px); }
+  .pocket-app .cover-composition { min-height:calc(100dvh - 155px); padding:12% 8%; }
+  .pocket-app .cover-title strong { font-size:clamp(40px,12vw,66px) !important; }
+  .pocket-app .cover-title em { font-size:clamp(18px,5.5vw,27px) !important; }
+  .pocket-app .cover-title span { font-size:12px !important; }
+  .pocket-app .cover-mark { width:min(86%,340px); height:auto; object-fit:contain; }
+  .pocket-app .cover-subtitle { font-size:15px !important; line-height:1.5; }
+  .pocket-app .cover-domain { font-size:16px !important; }
+  .pocket-app .back-signature { min-height:calc(100dvh - 155px); display:flex; flex-direction:column; justify-content:center; align-items:center; gap:20px; }
+  .pocket-app .back-signature img { width:min(70%,260px); }
+  .pocket-app .image-page .page-content { min-height:65dvh; padding:18px; }
+  .pocket-app .image-page img { width:100%; max-height:65dvh; height:auto; object-fit:contain; }
+  .pocket-app .image-page .image-support { position:static; color:#f5f1e8; background:#050505; padding:12px; }
+  .pocket-app .image-page .artifact-label { top:18px; right:18px; left:18px; text-align:center; }
+  .pocket-bottom {
+    position:fixed; bottom:0; left:0; right:0; z-index:75;
+    display:grid; grid-template-columns:1fr auto 1fr; gap:8px; align-items:center;
+    min-height:66px; padding:6px max(12px,env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));
+    background:#080807; border-top:1px solid rgba(245,166,23,.4);
+    box-shadow:0 -8px 22px rgba(0,0,0,.3);
+  }
+  .pocket-bottom button { min-height:48px; min-width:86px; padding:8px 10px; border:1px solid rgba(245,166,23,.65); border-radius:6px; color:#f5f1e8; background:#17130e; font-size:14px; cursor:pointer; }
+  .pocket-bottom button:last-child { justify-self:end; }
+  .pocket-bottom button:disabled { opacity:.35; cursor:not-allowed; }
+  .pocket-folio { font-size:13px; text-align:center; color:#d9bf91; white-space:nowrap; }
+  .pocket-contents[hidden], .pocket-media[hidden] { display:none !important; }
+  body.pocket-dialog-open { overflow:hidden; }
+  .pocket-contents, .pocket-media { position:fixed; z-index:90; inset:0; display:flex; justify-content:flex-end; background:rgba(0,0,0,.78); }
+  .pocket-contents-panel { width:min(100%,420px); height:100%; overflow-y:auto; padding:24px 24px calc(36px + env(safe-area-inset-bottom)); background:#0c0b0a; border-left:1px solid #7c5a28; }
+  .pocket-contents-heading { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; }
+  .pocket-contents h2 { margin:0; font:32px Georgia,serif; }
+  .pocket-close,.pocket-media-close { min-width:58px; min-height:44px; border:1px solid #e3c28c; border-radius:5px; color:#f5f1e8; background:#14110d; font-size:14px; }
+  .pocket-chapter { width:100%; display:grid; grid-template-columns:38px 1fr; gap:10px; text-align:left; align-items:center; min-height:56px; padding:10px 0; color:#f5f1e8; border:0; border-top:1px solid #373027; background:none; cursor:pointer; }
+  .pocket-chapter span { font-size:13px; color:#f5a617; }
+  .pocket-chapter strong { font:19px Georgia,serif; }
+  .pocket-media { justify-content:center; align-items:center; padding:70px 12px 16px; }
+  .pocket-media img { max-width:100%; max-height:calc(100dvh - 90px); object-fit:contain; }
+  .pocket-media-close { position:absolute; top:max(14px,env(safe-area-inset-top)); right:14px; }
+  @media (prefers-reduced-motion:reduce) { .pocket-app *, .pocket-app *::before,.pocket-app *::after { animation:none !important; transition:none !important; } }
+}
+@media (max-width:359px) {
+ .pocket-book-label { display:none; }
+ .pocket-app .page-content { padding:20px; }
+ .pocket-bottom button { min-width:80px; font-size:13px; }
+}
